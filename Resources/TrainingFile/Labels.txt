@@ -1,0 +1,17 @@
+0: Cat2
+1: Death1
+2: Minion1
+3: Monkey1
+4: Monkey2
+5: MyAvatar
+6: Pikachu1
+7: PigBoss
+8: Rabbit2
+9: Sekeleton2
+10: Snake2
+11: Turtle2
+12: Unicorn
+13: WillOWisp2
+14: WillOWisp1
+15: WrathDragon2
+
