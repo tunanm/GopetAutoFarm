@@ -1,10 +1,10 @@
 import math
-
 import pyautogui as gui
 import time
 
 monster_count = 0
-moving_speed = 135
+moving_speed = 160
+#160 old value with hwnd, 0, 0, 640, 640
 
 
 def hold_key (hold_time,keypress):
@@ -51,8 +51,8 @@ def moving_nomal_roadmap(avatar,monster,keypress):
     if avatar_center_bottom_y < monster_center_bottom_y:
         hold_time = (monster_center_bottom_y - avatar_center_bottom_y)/moving_speed
         hold_key(hold_time, 'down')
-    time.sleep(1)
-    hold_key(0.5,keypress)
+    time.sleep(1.5)
+    hold_key(0.4,keypress)
     monster_count += 1
     time.sleep(3)
 
