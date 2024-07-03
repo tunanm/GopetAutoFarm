@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def map_object_detect(pathResources, pathImagesRealTime, rec_name, isAvatar):
+def map_object_detect(pathResources, pathImagesRealTime):
     avatar = cv2.imread(pathResources)
     sample = cv2.imread(pathImagesRealTime)
 
@@ -15,10 +15,7 @@ def map_object_detect(pathResources, pathImagesRealTime, rec_name, isAvatar):
 
     rectangles = []
     for (x, y) in zip(xloc, yloc):
-        if isAvatar:
-            rectangles.append([x, y, width, height + 120])
-        else:
-            rectangles.append([x, y, width, height])
+        rectangles.append([x, y, width, height])
 
     # Convert rectangles to numpy array
     rectangles = np.array(rectangles)
