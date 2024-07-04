@@ -3,7 +3,7 @@ import pyautogui as gui
 import time
 
 monster_count = 0
-moving_speed = 160
+moving_speed = 130
 #160 old value with hwnd, 0, 0, 640, 640
 
 
@@ -12,6 +12,8 @@ def hold_key (hold_time,keypress):
         gui.keyDown(keypress)
         time.sleep(hold_time)
         gui.keyUp(keypress)
+    else:
+        time.sleep(2)
 
 def moving_avatar(avatar, monster, ciff_positions, keypress, total_mana, mana_cost):
     global monster_count
@@ -37,6 +39,7 @@ def moving_avatar(avatar, monster, ciff_positions, keypress, total_mana, mana_co
 
 def moving_nomal_roadmap(avatar,monster,keypress):
     global monster_count
+    print('move normal pattern')
     avatar_center_bottom_x, avatar_center_bottom_y = avatar[:2]
     monster_center_bottom_x, monster_center_bottom_y = monster[:2]
     if avatar_center_bottom_x < monster_center_bottom_x:
@@ -51,16 +54,21 @@ def moving_nomal_roadmap(avatar,monster,keypress):
     if avatar_center_bottom_y < monster_center_bottom_y:
         hold_time = (monster_center_bottom_y - avatar_center_bottom_y)/moving_speed
         hold_key(hold_time, 'down')
-    time.sleep(1.5)
-    hold_key(0.4,keypress)
+    for key in keypress:
+        time.sleep(1.5)
+        hold_key(0.3,key)
     monster_count += 1
-    time.sleep(3)
 
 def moving_cliff_roadmap(avatar,monster,ciff_positions,keypress):
     global monster_count
+    print('move cliff pattern')
     avatar_center_bottom_x, avatar_center_bottom_y = avatar[:2]
     monster_center_bottom_x, monster_center_bottom_y = monster[:2]
     cliff_center_bottom_x, cliff_center_bottom_y, w, h = ciff_positions[0][:]
+    for cliff_position in ciff_positions:
+        x,y,w1,h1 = cliff_position[:]
+        if x >= avatar_center_bottom_x:
+            cliff_center_bottom_x, cliff_center_bottom_y, w, h = x,y,w1,h1
     hold_time = abs(cliff_center_bottom_x - avatar_center_bottom_x) / moving_speed
     if cliff_center_bottom_x > avatar_center_bottom_x:
         hold_key(hold_time, 'right')
@@ -80,10 +88,10 @@ def moving_cliff_roadmap(avatar,monster,ciff_positions,keypress):
     if cliff_center_bottom_x < monster_center_bottom_x:
         hold_time = (monster_center_bottom_x - cliff_center_bottom_x) / moving_speed
         hold_key(hold_time, 'right')
-    time.sleep(1)
-    hold_key(0.5,keypress)
+    for key in keypress:
+        time.sleep(1.5)
+        hold_key(0.3,key)
     monster_count += 1
-    time.sleep(3)
 
 
 
