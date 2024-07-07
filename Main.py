@@ -16,7 +16,7 @@ model = YOLO('.venv/Lib/site-packages/ultralytics/best.pt')
 classNames = ["Cat2","Death1","Minion1","Monkey1",
              "Monkey2","MyAvatar","Pikachu1","PigBoss",
              "Rabbit2","Sekeleton2","Snake2","Turtle2",
-             "Unicorn","WillOWisp2","WillOWisp1","WrathDragon2"]
+             "Unicorn","WillOWisp2","WillOWisp1","WrathDragon2","SakuraTree"]
 
 skill_press = ['1','2','3','4']
 total_mana = 5600
@@ -92,10 +92,10 @@ if __name__ == "__main__":
                     cls = int(box.cls[0])
                     currentClass = classNames[cls]
                     # Detec avatar positions
-                    if currentClass == "MyAvatar" and conf >= 0.8:
+                    if currentClass == "MyAvatar" and conf >= 0.7:
                         avatar_positions.append((x + w/2,y + h, w, h))
                     # Detec monster positions
-                    if currentClass != "MyAvatar" and conf >= 0.8:
+                    if currentClass != "MyAvatar" and currentClass != "SakuraTree" and conf >= 0.7:
                         monster_positions.append((x + w/2,y + h, w, h))
             # Find the nearest monster for each avatar
             nearest_monsters = []
