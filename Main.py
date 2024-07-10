@@ -10,7 +10,6 @@ from ultralytics import YOLO
 from ImagesClassifierFeatureDetectors import map_object_detect
 from CaptchaAutoFill import  send_captcha_email
 
-flag_boss = False
 model = YOLO('.venv/Lib/site-packages/ultralytics/best.pt')
 
 classNames = ["Cat2","Death1","Minion1","Monkey1",
@@ -18,20 +17,22 @@ classNames = ["Cat2","Death1","Minion1","Monkey1",
              "Rabbit2","Sekeleton2","Snake2","Turtle2",
              "Unicorn","WillOWisp2","WillOWisp1","WrathDragon2","SakuraTree"]
 
-skill_press = ['1','2','3','4']
+skill_press = ['0','1','2','3','4']
 total_mana = 5600
-mana_cost = [200,90,150]
-boss_skill_pattern = ['1']
+mana_cost = []
+boss_skill_pattern = []
+skill_use = 1
 
 realtime_map = "Resources/GameMapRealTime"
 cliff_directory = "Resources/Cliff"
-captcha = "Resources/Captcha"
+captcha = "Resources/CaptchaDetect"
 boss_info = 'Resources/BossInfo'
 
 realtime_path = []
 cliff_path = []
 captcha_path = []
 boss_path = []
+
 
 # Bring game windown to screen
 
@@ -54,6 +55,18 @@ def boss_pattern():
     time.sleep(0.3)
     hold_key(0.3, '3')
     time.sleep(3)
+def get_user_input():
+    global total_mana, mana_cost, skill_use, boss_skill_pattern
+    total_mana = int(input('total mana:'))
+    skill_use = int(input('skill use(Eg: 1, 0 define for do nothing):'))
+    skill_mana_count = int(input('number of skills for input array mana cost:'))
+    for i in range(0,skill_mana_count):
+        temp = int(input(f'Mana of {i} skill use:'))
+        mana_cost.append(temp)
+    skill_boss_pattern_num = int(input('number of skill use when match boss:'))
+    for i in range(0,skill_boss_pattern_num):
+        temp = str(input(f'Skill {i} is:'))
+        boss_skill_pattern.append(temp)
 
 # GetMapRealTime
 
@@ -66,6 +79,7 @@ if __name__ == "__main__":
     boss_path = get_directory_path(boss_info, boss_path)
     captcha_path = get_directory_path(captcha,captcha_path)
     bring_window_to_foreground('Gopet2D')
+    get_user_input()
     time.sleep(2)
     #packet_capture_thread()
     while True:
@@ -108,10 +122,10 @@ if __name__ == "__main__":
                 print("cliff" + str(ciff_positions))
                 if len(boss_fightting) > 0:
                     print('boss')
-                    moving_avatar(avatar_postition,monster_position, ciff_positions,boss_skill_pattern, total_mana, mana_cost[0])
+                    moving_avatar(avatar_postition,monster_position, ciff_positions,boss_skill_pattern, total_mana, int(mana_cost[skill_use]))
                 else:
-                    moving_avatar(avatar_postition, monster_position, ciff_positions, ['1'], total_mana,
-                                  mana_cost[1])
+                    moving_avatar(avatar_postition, monster_position, ciff_positions, skill_press[skill_use], total_mana,
+                                  int(mana_cost[skill_use]))
                     print('normal monster')
             else:
                 print('There no avatar or nerest monster')

@@ -3,12 +3,12 @@ import pyautogui as gui
 import time
 
 monster_count = 0
-moving_speed = 130
+moving_speed = 120
 #160 old value with hwnd, 0, 0, 640, 640
 
 
 def hold_key (hold_time,keypress):
-    if keypress:
+    if keypress != '0':
         gui.keyDown(keypress)
         time.sleep(hold_time)
         gui.keyUp(keypress)
@@ -57,6 +57,7 @@ def moving_nomal_roadmap(avatar,monster,keypress):
     for key in keypress:
         time.sleep(1.5)
         hold_key(0.3,key)
+        time.sleep(0.7)
     monster_count += 1
 
 def moving_cliff_roadmap(avatar,monster,ciff_positions,keypress):
@@ -65,10 +66,6 @@ def moving_cliff_roadmap(avatar,monster,ciff_positions,keypress):
     avatar_center_bottom_x, avatar_center_bottom_y = avatar[:2]
     monster_center_bottom_x, monster_center_bottom_y = monster[:2]
     cliff_center_bottom_x, cliff_center_bottom_y, w, h = ciff_positions[0][:]
-    for cliff_position in ciff_positions:
-        x,y,w1,h1 = cliff_position[:]
-        if x >= avatar_center_bottom_x:
-            cliff_center_bottom_x, cliff_center_bottom_y, w, h = x,y,w1,h1
     hold_time = abs(cliff_center_bottom_x - avatar_center_bottom_x) / moving_speed
     if cliff_center_bottom_x > avatar_center_bottom_x:
         hold_key(hold_time, 'right')
