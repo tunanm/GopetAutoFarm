@@ -5,6 +5,8 @@ import datetime
 from datetime import datetime as date
 import re
 import time
+import random
+
 import pyautogui as gui
 from email.message import EmailMessage
 from simplegmail import Gmail
@@ -14,7 +16,7 @@ from simplegmail.query import construct_query
 
 numbers_position = [(206,401),(249,401),(291,401),(338,403),(382,403),
                     (425,403),(470,401),(511,401),(556,401),(600,400)]
-delete_position = (642,401)
+delete_position = [(642,401),(648,405),(638,397)]
 capture_area = (277, 174, 300, 200)
 date_send = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
@@ -40,7 +42,8 @@ def read_email_reply():
 def fill_in_captcha(numbers):
     ind = 0
     while ind <= 5:
-        gui.click(delete_position)
+        gui.click(delete_position[random.randint(0,2)])
+        time.sleep(0.5)
         ind += 1
     for number in numbers:
         if number == '0':
