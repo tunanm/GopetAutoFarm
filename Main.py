@@ -56,8 +56,8 @@ def get_user_input():
 # Detect avatar positions
 # Example of how to start capture in a separate thread
 if __name__ == "__main__":
-    bring_window_to_foreground('Gopet2D')
     get_user_input()
+    bring_window_to_foreground('Gopet2D')
     time.sleep(2)
     #packet_capture_thread()
     while True:
