@@ -57,7 +57,6 @@ def moving_nomal_roadmap(avatar,monster,keypress):
     for key in keypress:
         time.sleep(1.5)
         hold_key(0.3,key)
-        time.sleep(0.3)
     monster_count += 1
 
 def moving_cliff_roadmap(avatar,monster,ciff_positions,keypress):
