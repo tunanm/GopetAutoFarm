@@ -6,6 +6,7 @@ captcha_directory = "Resources\\CaptchaDetect\\detect.png"
 boss_info_directory = 'Resources\\BossInfo\\atk.png'
 session_directory = 'Resources\\Session\\session.png'
 captcha_file_path = 'Resources\\Captcha\\captcha.jpg'
+login_screen_file_path = 'Resources\\LoginScreen\\login_screen.png'
 model = YOLO('.venv/Lib/site-packages/ultralytics/best.pt')
 
 classNames = ["Cat2","Death1","Minion1","Monkey1",

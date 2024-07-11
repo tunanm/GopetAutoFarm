@@ -7,7 +7,7 @@ from GameWindownSetUp import (bring_window_to_foreground,logout,
 from NearestMonsterPosition import find_nearest_monster
 from Moving import moving_avatar,hold_key
 from ImagesClassifierFeatureDetectors import map_object_detect
-from Variable import (realtime_map_directory, cliff_directory,skill_press,
+from Variable import (realtime_map_directory, cliff_directory,skill_press,login_screen_file_path,
                       boss_info_directory, captcha_directory, session_directory, model, classNames)
 from CaptchaAutoFill import captcha_solve
 
@@ -70,6 +70,10 @@ if __name__ == "__main__":
         ciff_positions = map_object_detect(cliff_directory,realtime_map_directory)
         boss_fightting = map_object_detect(boss_info_directory,realtime_map_directory)
         captcha_exists = map_object_detect(captcha_directory,realtime_map_directory)
+        at_login_screen = map_object_detect(login_screen_file_path,realtime_map_directory)
+        if len(at_login_screen) > 0:
+            re_login_and_move_to_road_to_mountain()
+            continue
         if len(captcha_exists) > 0:
             session_timeout = map_object_detect(session_directory,realtime_map_directory)
             if len(session_timeout) > 0:
