@@ -1,38 +1,20 @@
 import math
 import os
 import time
-import cv2
 import pyautogui as gui
-from GameWindownSetUp import bring_window_to_foreground,re_login_and_move_to_road_to_mountain
+from GameWindownSetUp import (bring_window_to_foreground,logout,
+                              re_login_and_move_to_road_to_mountain)
 from NearestMonsterPosition import find_nearest_monster
 from Moving import moving_avatar,hold_key
-from ultralytics import YOLO
 from ImagesClassifierFeatureDetectors import map_object_detect
-from CaptchaAutoFill import  send_captcha_email
+from Variable import (realtime_map_directory, cliff_directory,skill_press,
+                      boss_info_directory, captcha_directory, session_directory, model, classNames)
+from CaptchaAutoFill import captcha_solve
 
-model = YOLO('.venv/Lib/site-packages/ultralytics/best.pt')
-
-classNames = ["Cat2","Death1","Minion1","Monkey1",
-             "Monkey2","MyAvatar","Pikachu1","PigBoss",
-             "Rabbit2","Sekeleton2","Snake2","Turtle2",
-             "Unicorn","WillOWisp2","WillOWisp1","WrathDragon2","SakuraTree"]
-
-skill_press = ['0','1','2','3','4']
 total_mana = 5600
 mana_cost = []
 boss_skill_pattern = []
 skill_use = 1
-
-realtime_map = "Resources/GameMapRealTime"
-cliff_directory = "Resources/Cliff"
-captcha = "Resources/CaptchaDetect"
-boss_info = 'Resources/BossInfo'
-
-realtime_path = []
-cliff_path = []
-captcha_path = []
-boss_path = []
-
 
 # Bring game windown to screen
 
@@ -74,10 +56,6 @@ def get_user_input():
 # Detect avatar positions
 # Example of how to start capture in a separate thread
 if __name__ == "__main__":
-    realtime_path = get_directory_path(realtime_map, realtime_path)
-    cliff_path = get_directory_path(cliff_directory, cliff_path)
-    boss_path = get_directory_path(boss_info, boss_path)
-    captcha_path = get_directory_path(captcha,captcha_path)
     bring_window_to_foreground('Gopet2D')
     get_user_input()
     time.sleep(2)
@@ -85,15 +63,20 @@ if __name__ == "__main__":
     while True:
         #Get realtime map
         screen_shot = gui.screenshot(region=(0, 0, 850, 520))
-        screen_shot.save(realtime_path[0])
-        results = model.predict(realtime_path[0])
+        screen_shot.save(realtime_map_directory)
+        results = model.predict(realtime_map_directory)
         avatar_positions = []
         monster_positions = []
-        ciff_positions = map_object_detect(cliff_path[0],realtime_path[0])
-        boss_fightting = map_object_detect(boss_path[0],realtime_path[0])
-        captcha_exists = map_object_detect(captcha_path[0],realtime_path[0])
+        ciff_positions = map_object_detect(cliff_directory,realtime_map_directory)
+        boss_fightting = map_object_detect(boss_info_directory,realtime_map_directory)
+        captcha_exists = map_object_detect(captcha_directory,realtime_map_directory)
         if len(captcha_exists) > 0:
-            cv2.waitKey()
+            session_timeout = map_object_detect(session_directory,realtime_map_directory)
+            if len(session_timeout) > 0:
+                logout()
+                re_login_and_move_to_road_to_mountain()
+            else:
+                captcha_solve()
         else:
             for result in results:
                 boxes = result.boxes
@@ -132,6 +115,7 @@ if __name__ == "__main__":
                 if ind % 2 == 0:
                     hold_key(0.4, 'right')
                     hold_key(0.2, 'down')
+                    ind = 0
                 else:
                     hold_key(0.4, 'left')
                     hold_key(0.2, 'down')

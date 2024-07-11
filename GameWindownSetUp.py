@@ -14,7 +14,7 @@ more_option = (771,484)
 #x=566, y=595 640*640 resolution
 change_area = (742,290)
 #x=498, y=346 640*640 resolution
-area_position = [(703,330),(762,330),(640,395),(700,395)]
+area_position = [(703,330),(762,330),(640,395),(700,395),(763,395),(637,461),(705,461)]
 
 def bring_window_to_foreground(window_title):
     # Find the window by its title
@@ -33,10 +33,6 @@ def set_window_position(hwnd, x, y, width, height):
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, x, y, width, height, win32con.SWP_SHOWWINDOW)
 
 def re_login_and_move_to_road_to_mountain():
-    pyautogui.click(function_position)
-    time.sleep(0.5)
-    pyautogui.click(logout_position)
-    time.sleep(0.5)
     pyautogui.click(login_position)
     time.sleep(2)
     hold_key(4, 'left')
@@ -48,5 +44,12 @@ def re_login_and_move_to_road_to_mountain():
     time.sleep(0.3)
     pyautogui.click(change_area)
     time.sleep(0.3)
-    pyautogui.click(area_position[random.randint(0, 3)])
+    pyautogui.click(area_position[random.randint(0, 6)])
     time.sleep(0.3)
+def logout():
+    pyautogui.click(login_position)
+    time.sleep(0.5)
+    pyautogui.click(function_position)
+    time.sleep(0.5)
+    pyautogui.click(logout_position)
+    time.sleep(0.5)
