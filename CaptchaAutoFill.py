@@ -103,7 +103,7 @@ def captcha_solve():
     screen_captcha_capture()
     time.sleep(1)
     send_captcha_email()
-    time.sleep(180)
+    time.sleep(120)
     captcha_string = read_email_reply()
     fill_in_captcha(captcha_string)
 

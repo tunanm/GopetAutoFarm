@@ -3,7 +3,7 @@ import pyautogui as gui
 import time
 
 monster_count = 0
-moving_speed = 120
+moving_speed = 135
 #160 old value with hwnd, 0, 0, 640, 640
 
 
