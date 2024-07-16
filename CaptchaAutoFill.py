@@ -30,13 +30,14 @@ def read_email_reply():
         'newer_than':(1,"day")
     }
     messages = gmail.get_unread_inbox(query=construct_query(query_params))
-    date_receive = date.strptime(messages[0].date, "%Y-%m-%d %H:%M:%S%z").strftime("%Y-%m-%d %H:%M")
-    if date_receive > date_send:
-        if "Captcha" in messages[0].subject:
-            match = re.findall(r"\D(\d{5})\D", " "+messages[0].plain+" ")
-            if match:
-                captcha = match
-                return captcha[0]
+    if len(messages) > 0:
+        date_receive = date.strptime(messages[0].date, "%Y-%m-%d %H:%M:%S%z").strftime("%Y-%m-%d %H:%M")
+        if date_receive > date_send:
+            if "Captcha" in messages[0].subject:
+                match = re.findall(r"\D(\d{5})\D", " "+messages[0].plain+" ")
+                if match:
+                    captcha = match
+                    return captcha[0]
     return ''
 
 def fill_in_captcha(numbers):
